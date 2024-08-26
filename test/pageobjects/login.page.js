@@ -1,4 +1,4 @@
-import { $ } from '@wdio/globals'
+import { $, expect, browser } from '@wdio/globals'
 import Page from './page.js';
 
 /**
@@ -20,6 +20,9 @@ class LoginPage extends Page {
         return $('button[type="submit"]');
     }
 
+    get errorMessage(){
+        return $('//*[@id="login_button_container"]/div/form/div[3]/h3')
+    }
     /**
      * a method to encapsule automation code to interact with the page
      * e.g. to login using username and password
@@ -28,6 +31,11 @@ class LoginPage extends Page {
         await this.inputUsername.setValue(username);
         await this.inputPassword.setValue(password);
         await this.btnSubmit.click();
+    }
+
+    async validateWrongPasswordDisplayed(){
+        await expect(this.errorMessage).toHaveText(
+            expect.stringContaining("Epic sadeface: Username and Password do not match any user in this service"))
     }
 
     /**
