@@ -1,17 +1,14 @@
-import homePage from "../pageobjects/home.page";
-import loginPage from "../pageobjects/login.page";
+const LoginPage = require('../pageobjects/LoginPage');
+const cartPage = require('../pageobjects/cart.page');
 
-
-describe('Login Test', () => {
-    it('Test 3 Successfull login - Page Object Based', async() => {
-        await loginPage.open()
-        await loginPage.login("standard_user", "secret_sauce")
-        await homePage.validateOnHomePage()
+describe('SauceDemo Tests', () => {
+    it('should login successfully with valid credentials', async () => {
+        await LoginPage.login('standard_user', 'secret_sauce');
+        await CartPage.validateDashboard();
     });
 
-    it('Test 4 Successfull login - Page Object Based', async() => {
-        await loginPage.open()
-        await loginPage.login("standard_user", "secret_sauce")
-        await homePage.validateWrongPasswordDisplayed()
+    it('should add an item to the cart', async () => {
+        await CartPage.addItemToCart();
+        await cartPage.validateItemInCart();
     });
 });

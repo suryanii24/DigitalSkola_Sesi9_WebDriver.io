@@ -1,14 +1,25 @@
-import Page from "./page";
+import { $ } from '@wdio/globals'
+import page from './page.js';
 
 class CartPage extends page{
+    get title() { return $('.title'); }
+    get inventoryItems() { return $$('.inventory_item'); }
+    get addToCartButtons() { return $$('.btn_inventory'); }
+    get cartIcon() { return $('.shopping_cart_link'); }
 
-    get checkoutButton(){}
-    get continueShopping(){}
-    
+    async validateDashboard() {
+        await expect(this.title).toBeDisplayed();
+        await expect(this.title).toHaveTextContaining('Products');
+    }
 
-    open(){
-        return super.open("cart.html")
+    async addItemToCart() {
+        await this.addToCartButtons[0].click();
+    }
+
+    async validateItemInCart() {
+        await this.cartIcon.click();
+        await expect($('.cart_item')).toBeDisplayed();
     }
 }
 
-export default new CartPage();
+module.exports = new CartPage();
